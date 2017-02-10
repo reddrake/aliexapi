@@ -3,7 +3,7 @@
 	"type": "library",
 	"description": "Api for Aliexpress",
 	"keywords": ["Aliexpress"],
-	"homepage": "",
+	"homepage": "https://github.com/reddrake/aliexapi",
 	"license": "MIT",
 	"authors": [
 		{
