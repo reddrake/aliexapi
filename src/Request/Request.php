@@ -33,7 +33,7 @@ class Request implements RequestInterface{
 
         $return = $this->curlExec($uri, $data);
 
-        if(@$return['error_code'] == '401' && @$return['exception'] == 'Request need user authorized'){
+        if(@$return['error_code'] == '401' || @$return['exception'] == 'Request need user authorized'){
             if(!$this->refreshAccessToken()){
                 return $this->perform($operation);
             }
@@ -53,9 +53,9 @@ class Request implements RequestInterface{
             );
         $return = $this->curlExec($uri, $data);
 
-        if(!@$return['access_token']) throw new Exception("Aliex authorization error!");
+        if(!@$return['access_token']) throw new \Exception("Aliex authorization error!");
 
-        return true == $this->config->setAccessToken($return['access_token']);
+        return false == $this->config->setAccessToken($return['access_token']);
     }
 
     protected function curlExec($uri, $data){
