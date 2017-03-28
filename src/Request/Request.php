@@ -75,6 +75,7 @@ class Request implements RequestInterface{
         $code_arr['client_id'] = $this->config->getApiKey();
         $code_arr['access_token'] = $this->config->getAccessToken();
         $code_arr['_aop_datePattern'] = 'yyyy-MM-dd HH:mm:ss';
+        $code_arr['_aop_timeZone'] = 'Asia/Chongqing';
 
         ksort($code_arr);
         $sign_str = $url = '';
