@@ -9,7 +9,7 @@ class Request implements RequestInterface{
 
     private $options = [];
 
-    protected $requestScheme = 'http://gw.api.alibaba.com/openapi/param2/1/aliexpress.open/%s';
+    protected $requestScheme = 'http://gw.api.taobao.com/router/rest';
 
     protected $requestAuthScheme = 'https://gw.api.alibaba.com/openapi/param2/1/system.oauth2/getToken/%s';
 
@@ -27,7 +27,7 @@ class Request implements RequestInterface{
 
     public function perform(OperationInterface $operation)
     {
-        $uri = sprintf($this->requestScheme, $operation->getName()). '/' . $this->config->getApiKey();
+        $uri = $this->requestScheme;
 
         $data = $this->authSignature($operation);
 
@@ -72,20 +72,23 @@ class Request implements RequestInterface{
     protected function authSignature( $operation ){
         $code_arr = $operation->getOperationParameter();
 
-        $code_arr['client_id'] = $this->config->getApiKey();
-        $code_arr['access_token'] = $this->config->getAccessToken();
-        $code_arr['_aop_datePattern'] = 'yyyy-MM-dd HH:mm:ss';
-        $code_arr['_aop_timeZone'] = 'Asia/Chongqing';
+        $code_arr['timestamp'] = date('Y-m-d H:i:s');
+        $code_arr['v'] = '2.0';
+        $code_arr['app_key'] = $this->config->getApiKey();
+        $code_arr['method'] = $operation->getName();
+        $code_arr['session'] = $this->config->getAccessToken();
+        $code_arr['format'] = 'json';
+        $code_arr['sign_method'] = 'md5';
 
         ksort($code_arr);
-        $sign_str = $url = '';
+        $sign_str = $this->config->getApiSecret();
         foreach ($code_arr as $key=>$val){
-            if(!$val) continue;
-            $sign_str .= $key . $val;
+            if(is_string($val) && "@" != substr($val, 0, 1))
+                $sign_str .= "$key$val";
         }
-        $sign_str = 'param2/1/aliexpress.open/' . $operation->getName() . '/' . $this->config->getApiKey() . $sign_str;
+        $sign_str .= $this->config->getApiSecret();
 
-        $code_arr['_aop_signature'] = strtoupper(bin2hex(hash_hmac("sha1", $sign_str, $this->config->getApiSecret(), true)));
+        $code_arr['sign'] = strtoupper(md5($sign_str));
 
         return $code_arr;
     }    

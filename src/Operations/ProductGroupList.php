@@ -5,6 +5,6 @@ class ProductGroupList extends AbstractOperation
 {
     public function getName()
     {
-        return 'api.getProductGroupList';
+        return 'aliexpress.postproduct.redefining.getproductgrouplist';
     }
 }
