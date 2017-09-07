@@ -39,6 +39,11 @@ class Request implements RequestInterface{
             }
         }
 
+        $responseName = str_replace('.', '_', $operation->getName()) . '_response';
+        if(isset($return[$responseName]['result'])){
+            return $return[$responseName]['result'];
+        }
+
         return $return;
     }
 
