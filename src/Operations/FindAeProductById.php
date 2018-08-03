@@ -5,12 +5,12 @@ class FindAeProductById extends AbstractOperation
 {
     public function getName()
     {
-        return 'api.findAeProductById';
+        return 'aliexpress.postproduct.redefining.findaeproductbyid';
     }
 
     public function setProductId($productId)
     {
-        $this->parameter['productId'] = $productId;
+        $this->parameter['product_id'] = $productId;
         return $this;
     }
 }
