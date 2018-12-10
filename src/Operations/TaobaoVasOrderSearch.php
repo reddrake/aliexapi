@@ -27,6 +27,36 @@ class TaobaoVasOrderSearch extends AbstractOperation
         return $this;
     }
 
+    public function setStartCreated($start_created)
+    {
+        $this->parameter['start_created'] = $start_created;
+        return $this;
+    }
+
+    public function setEndCreated($end_created)
+    {
+        $this->parameter['end_created'] = $end_created;
+        return $this;
+    }
+
+    public function setBizType($biz_type)
+    {
+        $this->parameter['biz_type'] = $biz_type;
+        return $this;
+    }
+
+    public function setBizOrderId($biz_order_id)
+    {
+        $this->parameter['biz_order_id'] = $biz_order_id;
+        return $this;
+    }
+
+    public function setOrderId($order_id)
+    {
+        $this->parameter['order_id'] = $order_id;
+        return $this;
+    }
+
     public function setPageSize($page_size)
     {
         $this->parameter['page_size'] = $pageSize;
